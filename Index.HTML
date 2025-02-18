@@ -3,40 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>London Traffic GIF</title>
+    <title>London Traffic Map</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Set the size of the map container */
+        #map {
+            width: 100%;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        img {
-            border: 5px solid #000;
         }
     </style>
 </head>
 <body>
 
-    <div id="gif-container">
-        <!-- The GIF will be inserted here by JavaScript -->
-    </div>
+<div id="map"></div>
 
-    <script>
-        // URL to the London traffic GIF on GitHub (replace this with actual URL)
-        const gifUrl = "https://raw.githubusercontent.com/user/repository/branch/path/to/london_traffic.gif";
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-        // Create an image element
-        const img = document.createElement("img");
-        img.src = gifUrl;
-        img.alt = "London Traffic GIF";
-        img.width = 600;  // Set the width as desired
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([51.5074, -0.1278], 13);  // Coordinates for London
 
-        // Append the image to the div
-        document.getElementById("gif-container").appendChild(img);
-    </script>
+    // Add a tile layer (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // URL of the London traffic GIF (replace with your actual GitHub raw URL)
+    const gifUrl = "https://raw.githubusercontent.com/username/repository/branch/path/to/london_traffic.gif";
+
+    // Add a marker at a specific location (center of London)
+    var marker = L.marker([51.5074, -0.1278]).addTo(map);
+
+    // Create an image overlay and add it to the map
+    var gifOverlay = L.imageOverlay(gifUrl, [[51.5, -0.15], [51.6, -0.1]]);  // Define the bounds for the GIF overlay
+    gifOverlay.addTo(map);
+
+    // Optionally, add a popup to the marker
+    marker.bindPopup("<b>London Traffic</b><br>Here is a live traffic GIF.").openPopup();
+</script>
 
 </body>
 </html>
